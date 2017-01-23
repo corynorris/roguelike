@@ -1,0 +1,16 @@
+.tile {
+  width: 15px;
+  height: 15px;
+}
+
+.wall {
+  background-color: black;
+}
+
+.floor {
+  background-color: #A1A1A1;
+}
+
+.door {
+  background-color: #C0C0C0;
+}
