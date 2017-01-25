@@ -1,16 +1,58 @@
+/* The image sheet is a 4x4 grid of 16x16 tiles */
+
 .tile {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  padding: 0;
+  margin: 0;
+  background-repeat: no-repeat;
+
 }
 
-.wall {
-  background-color: black;
+.double {
+  background: url('/images/wallset.gif') -0px -48px;
+}
+
+.cap {
+  background: url('/images/wallset.gif') -16px -32px;
+}
+
+.bottom-right-corner {
+  background: url('/images/wallset.gif') -48px -16px;
+}
+
+.bottom-left-corner {
+  background: url('/images/wallset.gif') -0px -32px;
+}
+
+.right-edge {
+  background: url('/images/wallset.gif') -32px -32px;
+}
+.right-bottom-edge {
+   background: url('/images/wallset.gif') -16px -48px;
+}
+
+.left-edge {
+  background: url('/images/wallset.gif') -48px -32px;
+}
+.left-bottom-edge {
+   background: url('/images/wallset.gif') -32px -48px;
+}
+
+.horizontal {
+    background: url('/images/wallset.gif') 0px 0px;
 }
 
 .floor {
-  background-color: #A1A1A1;
+  background: url('/images/wallset.gif') -48px -48px;
+}
+
+.empty {
+  background-color: transparent;
 }
 
 .door {
-  background-color: #C0C0C0;
+  background: url('/images/wallset.gif') -48px -48px;
 }

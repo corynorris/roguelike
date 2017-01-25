@@ -11,7 +11,6 @@ class MapContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state.map.tiles);
   return {
     tiles: state.map.tiles
   }
