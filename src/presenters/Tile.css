@@ -11,7 +11,7 @@
 
 }
 
-.double {
+.double-edge {
   background: url('/images/wallset.gif') -0px -48px;
 }
 
@@ -19,29 +19,33 @@
   background: url('/images/wallset.gif') -16px -32px;
 }
 
-.bottom-right-corner {
+.top-right-corner {
   background: url('/images/wallset.gif') -48px -16px;
 }
 
-.bottom-left-corner {
+.top-left-corner {
   background: url('/images/wallset.gif') -0px -32px;
 }
 
-.right-edge {
+.right-edge,
+.right-top-edge {
   background: url('/images/wallset.gif') -32px -32px;
 }
+
 .right-bottom-edge {
    background: url('/images/wallset.gif') -16px -48px;
 }
 
-.left-edge {
+.left-edge,
+.left-top-edge {
   background: url('/images/wallset.gif') -48px -32px;
 }
 .left-bottom-edge {
    background: url('/images/wallset.gif') -32px -48px;
 }
 
-.horizontal {
+.top-edge,
+.bottom-edge {
     background: url('/images/wallset.gif') 0px 0px;
 }
 
@@ -50,7 +54,7 @@
 }
 
 .empty {
-  background-color: transparent;
+  background-color: red;
 }
 
 .door {
