@@ -1,20 +1,50 @@
+import Constants from '../core/constants';
+
 export const generateMap = () => ({
   type: 'GENERATE_MAP',
 });
 
-export const spawnPlayer = () => ({
-  type: 'SPAWN_PLAYER',
+export const spawnPlayer = (id, x, y) => ({
+  type: 'SPAWN_SPRITE',
+  name: Constants.PLAYER,
+  id,
+  x,
+  y,
 })
 
-export const spawnEnemy = () => ({
-  type: 'SPAWN_ENEMY',
+export const spawnEnemy = (id, x, y) => ({
+  type: 'SPAWN_SPRITE',
+  name: Constants.ENEMY,
+  id,
+  x,
+  y,
 })
 
-export const attack = () => ({
-  type: 'ATTACK',
+export const spawnBoss = (id, x, y) => ({
+  type: 'SPAWN_SPRITE',
+  name: Constants.BOSS,
+  id,
+  x,
+  y,
 })
 
-export const move = (direction) => ({
-  type: 'MOVE',
-  direction,
+export const setPlayerPosition = (x, y) => ({
+  type: 'SET_PLAYER_POSITION',
+  x,
+  y,
+})
+
+export const gameOver = () => ({
+  type: 'GAME_OVER',
+})
+
+export const setPlayerHealth = (health) => ({
+  type: 'SET_PLAYER_HEALTH',
+  health,
+})
+
+export const setEnemyHealth = (id, health) => ({
+  type: 'SET_ENEMY_HEALTH',
+  id,
+  health,
 })

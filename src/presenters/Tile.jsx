@@ -4,9 +4,10 @@ import './Tile.css';
 export const Tile = ({
   type,
   texture,
+  orig,
 }) =>  {
   return (
-    <td className={ 'tile ' + texture } />
+    <td className={ `tile tile-${texture} orig-${orig}` } />
   );
 }
 

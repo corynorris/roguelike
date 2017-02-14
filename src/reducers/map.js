@@ -1,11 +1,14 @@
-import game from '../core/index.js'
+import Constants from '../core/constants'
+import { generateMap } from '../core/map'
 
-const mapInitialState = game.generateMap(game.constants.width, game.constants.height);
+const mapInitialState = generateMap(Constants.WIDTH, Constants.HEIGHT);
 export const map = (state = mapInitialState, action) => {
   switch (action.type) {
     case 'GENERATE_MAP':
-      return game.generateMap(game.constants.width, game.constants.height);
+      return generateMap(Constants.WIDTH, Constants.HEIGHT);
     default:
       return state
   }
 }
+
+export default map

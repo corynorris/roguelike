@@ -1,8 +1,6 @@
-import { generateMap } from './map.js';
-import constants from './constants.js';
-
+import { generateMap, getRandomSpawn } from './map.js';
 
 export default {
   generateMap,
-  constants,
+  getRandomSpawn,
 };

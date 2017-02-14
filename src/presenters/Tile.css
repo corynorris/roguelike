@@ -11,45 +11,78 @@
 
 }
 
-.double-edge {
-  background: url('/images/wallset.gif') -0px -48px;
+.tile-0 {
+  background: url('/images/wallset.gif') 0px 0px;
 }
 
-.cap {
-  background: url('/images/wallset.gif') -16px -32px;
+
+.tile-1 {
+  background: url('/images/wallset.gif') -16px 0px;
 }
 
-.top-right-corner {
+
+.tile-2 {
+  background: url('/images/wallset.gif') -32px 0px;
+}
+
+
+.tile-3 {
+  background: url('/images/wallset.gif') -48px 0px;
+}
+
+.tile-4 {
+  background: url('/images/wallset.gif') 0px -16px;
+}
+
+
+.tile-5 {
+  background: url('/images/wallset.gif') -16px -16px;
+}
+
+
+.tile-6 {
+  background: url('/images/wallset.gif') -32px -16px;
+}
+
+
+.tile-7 {
   background: url('/images/wallset.gif') -48px -16px;
 }
 
-.top-left-corner {
-  background: url('/images/wallset.gif') -0px -32px;
+
+.tile-8 {
+  background: url('/images/wallset.gif') 0px -32px;
 }
 
-.right-edge,
-.right-top-edge {
+
+.tile-9 {
+  background: url('/images/wallset.gif') -16px -32px;
+}
+
+.tile-10 {
   background: url('/images/wallset.gif') -32px -32px;
 }
 
-.right-bottom-edge {
-   background: url('/images/wallset.gif') -16px -48px;
-}
-
-.left-edge,
-.left-top-edge {
+.tile-11 {
   background: url('/images/wallset.gif') -48px -32px;
 }
-.left-bottom-edge {
-   background: url('/images/wallset.gif') -32px -48px;
+
+.tile-12 {
+  background: url('/images/wallset.gif') 0px -48px;
 }
 
-.top-edge,
-.bottom-edge {
-    background: url('/images/wallset.gif') 0px 0px;
+
+.tile-13 {
+  background: url('/images/wallset.gif') -16px -48px;
 }
 
-.floor {
+
+.tile-14 {
+  background: url('/images/wallset.gif') -32px -48px;
+}
+
+
+.tile-15 {
   background: url('/images/wallset.gif') -48px -48px;
 }
 
