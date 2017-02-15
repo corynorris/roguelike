@@ -1,4 +1,4 @@
-import { generateMap, getRandomSpawn, getSpawnFromRoom, getSpawnFromLastRoom} from './map';
+import { generateMap, getMultipleSpawns, getRandomSpawn, getSpawnFromRoom } from './map';
 
 it('creates a map', () => {
   const map = generateMap(21, 21);
@@ -20,8 +20,12 @@ it('generates a spawn from a specific room', () => {
   expect(map.tiles[x][y] !== 'wall').toBe(true);
 })
 
-it('generates a spawn from the last room', () => {
+it('generates multiple spawns', () => {
   const map = generateMap(21, 21);
-  const {x,y} = getSpawnFromLastRoom(map);
-  expect(map.tiles[x][y] !== 'wall').toBe(true);
+  const spawns = getMultipleSpawns(map.rooms,3);
+  expect(spawns.length).toBe(3);
+  for (let i = 0; i < 3; i++) {
+    let {x,y} = spawns[i];
+    expect(map.tiles[x][y] !== 'wall').toBe(true);
+  }
 })

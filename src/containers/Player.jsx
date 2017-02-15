@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import Sprite from '../presenters/Sprite.jsx';
-import Constants from '../core/constants';
+import Const from '../core/constants';
 
 
 const mapStateToProps = (state, ownProps) => {
   let sprites = state.sprites.filter(sprite =>
-    (sprite.health > 0) && (sprite.name === Constants.PLAYER)
+    (sprite.health > 0) && (sprite.name === Const.PLAYER)
   )
 
   return {

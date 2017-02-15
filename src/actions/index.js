@@ -1,54 +1,15 @@
-import Constants from '../core/constants';
-
 export const generateMap = () => ({
   type: 'GENERATE_MAP',
 });
 
-export const spawnPlayer = (id, x, y) => ({
+export const spawn = (name, id, level, x, y) => ({
   type: 'SPAWN_SPRITE',
-  name: Constants.PLAYER,
-  level: 1,
-  id,
-  x,
-  y,
-})
-
-export const spawnEnemy = (id,level, x, y) => ({
-  type: 'SPAWN_SPRITE',
-  name: Constants.ENEMY,
+  name,
   level,
   id,
   x,
   y,
 })
-
-export const spawnBoss = (id, x, y) => ({
-  type: 'SPAWN_SPRITE',
-  name: Constants.BOSS,
-  level: 10,
-  id,
-  x,
-  y,
-})
-
-export const spawnWeapon = (id, level, x, y) => ({
-  type: 'SPAWN_SPRITE',
-  name: Constants.WEAPON,
-  level,
-  id,
-  x,
-  y,
-})
-
-export const spawnHealth = (id, level, x, y) => ({
-  type: 'SPAWN_SPRITE',
-  name: Constants.HEALTH,
-  level,
-  id,
-  x,
-  y,
-})
-
 
 export const setPlayerPosition = (x, y) => ({
   type: 'SET_PLAYER_POSITION',
@@ -58,6 +19,12 @@ export const setPlayerPosition = (x, y) => ({
 
 export const gameOver = () => ({
   type: 'GAME_OVER',
+})
+
+export const setScreenOffset = (top, left) => ({
+  type: 'SET_SCREEN_OFFSET',
+  top,
+  left,
 })
 
 export const setPlayerHealth = (health) => ({

@@ -1,5 +1,5 @@
 import React from 'react';
-import Constants from '../core/constants'
+import Const from '../core/constants'
 import './Sprite.css';
 
 const Sprite = ({
@@ -10,8 +10,8 @@ const Sprite = ({
   x,
   y
 }) => {
-  const width = Constants.UNIT_WIDTH;
-  const height = Constants.UNIT_HEIGHT;
+  const width = Const.UNIT_WIDTH;
+  const height = Const.UNIT_HEIGHT;
   const style = {
     position: 'absolute',
     left: x * width,

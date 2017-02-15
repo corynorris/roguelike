@@ -8,7 +8,7 @@ it('rolls a single die within a range of 1-6', () => {
     expect(result).toBeLessThanOrEqual(6);
     expect(result).toBeGreaterThanOrEqual(1);
   }
-  console.log(rolled);
+
   expect(Object.keys(rolled).length).toEqual(6);
 })
 

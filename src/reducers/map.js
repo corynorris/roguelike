@@ -1,11 +1,12 @@
-import Constants from '../core/constants'
+import Const from '../core/constants'
 import { generateMap } from '../core/map'
 
-const mapInitialState = generateMap(Constants.WIDTH, Constants.HEIGHT);
+const mapInitialState = generateMap(Const.WIDTH, Const.HEIGHT);
+
 export const map = (state = mapInitialState, action) => {
   switch (action.type) {
     case 'GENERATE_MAP':
-      return generateMap(Constants.WIDTH, Constants.HEIGHT);
+      return generateMap(Const.WIDTH, Const.HEIGHT);
     default:
       return state
   }

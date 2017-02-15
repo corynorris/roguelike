@@ -45,3 +45,11 @@ export function getRandomSpawn(rooms) {
   const roomCount = rooms.length;
   return getSpawnFromRoom(rooms[random(roomCount)]);
 }
+
+export function getMultipleSpawns(rooms, n) {
+  let spawns = new Set();
+  while (spawns.size < n) {
+    spawns.add(getRandomSpawn(rooms))
+  }
+  return [...spawns];
+}
