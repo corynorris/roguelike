@@ -45,11 +45,3 @@ export function getRandomSpawn(rooms) {
   const roomCount = rooms.length;
   return getSpawnFromRoom(rooms[random(roomCount)]);
 }
-
-export function getSpawnFromFirstRoom(map) {
-  return getSpawnFromRoom(map.rooms[0]);
-}
-
-export function getSpawnFromLastRoom(map) {
-  return getSpawnFromRoom(map.rooms[map.rooms.length - 1]);
-}

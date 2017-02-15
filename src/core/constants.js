@@ -8,5 +8,6 @@ export default class Constants {
   static HEALTH = 'Health';
   static WEAPON = 'Weapon';
   static PLAYER = 'Player';
+  static MAX_ENEMY_HEALTH = 300;
 }
 
