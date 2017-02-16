@@ -1,4 +1,4 @@
-import DungeonFactory from 'dungeon-factory';
+import DungeonFactory from './generator';
 
 export default function generateDungeon(width, height) {
   const dungeon = DungeonFactory.generate({
