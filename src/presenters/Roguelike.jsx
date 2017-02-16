@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Map from '../containers/Map';
+import LineOfSite from '../containers/LineOfSite';
 import Enemies from '../containers/Enemies';
 import Player from '../containers/Player';
 import HealthPacks from '../containers/HealthPacks';
@@ -37,65 +38,84 @@ class Roguelike extends Component {
     );
   }
 
-  spawn(type, maxLevel, count, spawns) {
-    for (let i = 0; i < count; i++) {
-      let level = i % maxLevel + 1;
-      this.props.spawn(
-        type, level, spawns.pop()
-      );
-    }
-  }
-
-  setupGame() {
-    const rooms = this.props.rooms;
-    const playerSpawn = Game.getSpawnFromRoom(rooms[0]);
-    const spawns = Game.getMultipleSpawns(rooms.slice(1), 50);
-
-    this.spawn(Const.ENEMY, Const.ENEMY_LEVELS, Const.ENEMY_COUNT, spawns)
-    this.spawn(Const.HEALTH, Const.HEALTH_LEVELS, Const.HEALTH_COUNT, spawns)
-    this.spawn(Const.WEAPON, Const.WEAPON_LEVELS, Const.WEAPON_COUNT, spawns)
-
-    this.props.spawn(Const.BOSS, Const.BOSS_LEVELS, spawns.pop())
-    this.props.spawn(Const.PLAYER, 1, playerSpawn)
-
-    this.centerOn(
-      playerSpawn.x,
-      playerSpawn.y
-    );
+  resetGame() {
+    let {x, y} = this.props.resetGame();
+    this.centerOn(x, y);
   }
 
   componentWillMount() {
-    this.setupGame();
+    const {x, y} = this.props.setupGame(this.props.rooms);
+    this.centerOn(x, y);
   }
 
   componentDidMount() {
     window.onresize = this.centerOnPlayer.bind(this);
   }
 
+  battleEnemy(enemy) {
+    const { player } = this.props;
+
+    const playerHealth = player.health - enemy.power;
+    const enemyHealth = enemy.health - player.power;
+
+    if (enemyHealth <= 0) {
+      this.props.destroy(enemy.id)
+      this.props.addExperience(player.id, (enemy.maxHealth + enemy.power) / 2)
+      return;
+    }
+
+    if (playerHealth <= 0) {
+      return this.resetGame();
+    }
+
+    this.props.setHealth(
+      player.id,
+      playerHealth
+    )
+
+    this.props.setHealth(
+      enemy.id,
+      enemyHealth
+    )
+  }
+
+  // todo add different effects for different potions
+  // ideas: line of site, power, experience
+  usePotion(sprite) {
+    const { player } = this.props;
+    this.props.destroy(
+      sprite.id
+    )
+    this.props.setHealth(
+      player.id,
+      player.health + sprite.health
+    )
+  }
+
+  upgradeWeapon(sprite) {
+    const {player } = this.props;
+    this.props.setPower(
+      player.id,
+      player.power + sprite.power
+    )
+    this.props.destroy(
+      sprite.id
+    )
+  }
+
   handleSprites(coord) {
-    const { sprites, player } = this.props;
+    const { sprites } = this.props;
     if (sprites.has(coord)) {
       const sprite = sprites.get(coord);
       switch (sprite.name) {
         case Const.ENEMY:
+          this.battleEnemy(sprite);
           break;
         case Const.HEALTH:
-          this.props.setHealth(
-            player.id,
-            player.health + sprite.health
-          )
-          this.props.destroy(
-            sprite.id
-          )
+          this.usePotion(sprite);
           break;
         case Const.WEAPON:
-          this.props.setPower(
-            player.id,
-            player.power + sprite.power
-          )
-          this.props.destroy(
-            sprite.id
-          )
+          this.upgradeWeapon(sprite)
           break;
         default:
           return;
@@ -122,6 +142,9 @@ class Roguelike extends Component {
     if (e.key.indexOf('Arrow') >= 0) { e.preventDefault(); }
     let {x, y} = this.props.player;
     switch (e.key) {
+      case 'r':
+        this.resetGame();
+        break;
       case 'w':
       case 'ArrowUp':
         y -= 1;
@@ -129,15 +152,18 @@ class Roguelike extends Component {
       case 's':
       case 'ArrowDown':
         y += 1;
-        break
+        break;
       case 'a':
       case 'ArrowLeft':
         x -= 1;
-        break
+        break;
       case 'd':
       case 'ArrowRight':
         x += 1;
-        break
+        break;
+      case 'h':
+        this.props.toggleFog();
+        break;
       default:
         return;
     }
@@ -150,15 +176,7 @@ class Roguelike extends Component {
         tabIndex="0"
         onKeyDown={this.handleKeyPress}>
         <StatsBar />
-        <div style={{
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 3,
-          backgroundImage: 'radial-gradient(circle farthest-corner at center, rgba(0,0,0,0) 0px, rgba(0,0,0,0.6) 40px, rgba(0,0,0,1) 80px, rgba(0,0,0,1) 100%)'
-        }} />
+        <LineOfSite />
         <div
           style={{
             left: `${this.props.screen.left}px`,

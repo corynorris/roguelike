@@ -1,12 +1,12 @@
-
 const screenInitialState = {
   top: 0,
   left: 0,
-  fog: true,
 }
 
 export const screen = (state = screenInitialState, action) => {
   switch (action.type) {
+    case 'RESET_DATA':
+     return screenInitialState;
     case 'SET_SCREEN_OFFSET':
       return Object.assign(
         {}, state, {

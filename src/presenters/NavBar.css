@@ -8,8 +8,8 @@
   color: white;
   background: black;
   z-index: 1000;
-  border-bottom: solid 3px white;
-  border-left: solid 3px white;
+  border-bottom: solid 2px white;
+  border-left: solid 2px white;
 }
 
 .NavBar div {

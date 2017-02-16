@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux'; 
-import roguelikeApp from './reducers'; 
-import App from './App';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import roguelikeApp from './reducers';
+import Game from './containers/Game';
 import './index.css';
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let store = createStore(roguelikeApp,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
+let store = createStore(
+  roguelikeApp,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 ReactDOM.render(
   <Provider store={store} >
-    <App />
+    <Game />
   </Provider>,
   document.getElementById('root')
 );

@@ -5,7 +5,7 @@ const mapInitialState = generateMap(Const.WIDTH, Const.HEIGHT);
 
 export const map = (state = mapInitialState, action) => {
   switch (action.type) {
-    case 'GENERATE_MAP':
+    case 'RESET_DATA':
       return generateMap(Const.WIDTH, Const.HEIGHT);
     default:
       return state

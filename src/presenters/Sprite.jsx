@@ -18,7 +18,7 @@ const Sprite = ({
     top: y * height,
     width: width,
     height: height,
-    opacity: (health/maxHealth),
+    opacity: (0.3+health/maxHealth),
   }
 
   return (

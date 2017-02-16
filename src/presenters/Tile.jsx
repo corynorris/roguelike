@@ -3,10 +3,10 @@ import './Tile.css';
 
 export const Tile = ({
   texture,
-  opacity,
+  orig,
 }) =>  {
   return (
-    <td className={ `tile tile-${texture}` } />
+    <td className={ `tile tile-${texture} ${orig}` } />
   );
 }
 

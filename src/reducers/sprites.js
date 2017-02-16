@@ -6,17 +6,18 @@ const spriteInitialState = {};
 export const sprite = (state = spriteInitialState, action) => {
   switch (action.type) {
     case 'SPAWN_SPRITE':
-      const health = weightedRange(100, 150 + (100 * action.level), action.level);
-      const power = weightedRange(40, 50 + (20 * action.level), action.level);
+      const initialHealth = weightedRange(100, 150 + (100 * action.level), action.level);
+      const initialPower = weightedRange(40, 50 + (20 * action.level), action.level);
       return {
         id: uuid.v4(),
-        power: power,
-        health: health,
-        maxHealth: health,
+        power: initialPower,
+        health: initialHealth,
+        maxHealth: initialHealth,
         level: action.level,
         x: action.x,
         y: action.y,
         name: action.name,
+        experience: 0,
       }
     case 'SET_SPRITE_POSITION':
       if (state.id !== action.id) {
@@ -45,6 +46,31 @@ export const sprite = (state = spriteInitialState, action) => {
         state,
         { power: action.power }
       );
+    case 'ADD_EXPERIENCE':
+      if (state.id !== action.id) {
+        return state
+      }
+      const exp = state.experience;
+      const expGain = action.experience;
+      let newExp = exp + expGain;
+      let { level, power, health, maxHealth } = state;
+      let levelReq = 50 + (level * 50);
+      console.log('adding exp:', newExp)
+      while (newExp > levelReq) {
+        level += 1;
+        power *= 1.1;
+        health = Math.max(maxHealth, health);
+        newExp %= levelReq;
+        levelReq = 50 + (level * 50);
+      }
+      return Object.assign(
+        {}, state, {
+          experience: newExp,
+          power: Math.round(power),
+          health,
+          level,
+        }
+      );
     default:
       return state
   }
@@ -54,6 +80,8 @@ export const sprite = (state = spriteInitialState, action) => {
 const spritesInitialState = [];
 export const sprites = (state = spritesInitialState, action) => {
   switch (action.type) {
+    case 'RESET_DATA':
+      return spritesInitialState;
     case 'SPAWN_SPRITE':
       return [
         ...state,
@@ -61,9 +89,9 @@ export const sprites = (state = spritesInitialState, action) => {
       ];
     case 'DESTROY_SPRITE':
       return [
-        ...state.filter(e => 
-            e.id !== action.id 
-          ) 
+        ...state.filter(e =>
+          e.id !== action.id
+        )
       ];
     case 'SET_SPRITE_POSITION':
       return state.map(e =>
@@ -77,7 +105,10 @@ export const sprites = (state = spritesInitialState, action) => {
       return state.map(e =>
         sprite(e, action)
       );
-
+    case 'ADD_EXPERIENCE':
+      return state.map(e =>
+        sprite(e, action)
+      );
     default:
       return state
   }
