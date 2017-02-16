@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Map from '../containers/Map';
-import LineOfSite from '../containers/LineOfSite';
+import Effects from '../containers/Effects';
 import Enemies from '../containers/Enemies';
 import Player from '../containers/Player';
 import HealthPacks from '../containers/HealthPacks';
 import Weapons from '../containers/Weapons';
 import StatsBar from '../containers/StatsBar';
 import Boss from '../containers/Boss';
-import Game from '../core';
 import Const from '../core/constants';
 
 class Roguelike extends Component {
@@ -59,23 +58,27 @@ class Roguelike extends Component {
     const enemyHealth = enemy.health - player.power;
 
     if (enemyHealth <= 0) {
-      this.props.destroy(enemy.id)
-      this.props.addExperience(player.id, (enemy.maxHealth + enemy.power) / 2)
+      if (enemy.name === Const.BOSS) {
+        this.props.victory();
+      } else {
+        this.props.destroy(enemy.id)
+        this.props.addExperience(player.id, (enemy.maxHealth + enemy.power) / 2)
+      }
       return;
     }
 
     if (playerHealth <= 0) {
-      return this.resetGame();
+      return this.props.defeat();
     }
 
-    this.props.setHealth(
+    this.props.attackSprite(
       player.id,
-      playerHealth
+      enemy.power
     )
 
-    this.props.setHealth(
+    this.props.attackSprite(
       enemy.id,
-      enemyHealth
+      player.power
     )
   }
 
@@ -86,7 +89,7 @@ class Roguelike extends Component {
     this.props.destroy(
       sprite.id
     )
-    this.props.setHealth(
+    this.props.healTo(
       player.id,
       player.health + sprite.health
     )
@@ -109,6 +112,7 @@ class Roguelike extends Component {
       const sprite = sprites.get(coord);
       switch (sprite.name) {
         case Const.ENEMY:
+        case Const.BOSS:
           this.battleEnemy(sprite);
           break;
         case Const.HEALTH:
@@ -176,7 +180,7 @@ class Roguelike extends Component {
         tabIndex="0"
         onKeyDown={this.handleKeyPress}>
         <StatsBar />
-        <LineOfSite />
+        <Effects />
         <div
           style={{
             left: `${this.props.screen.left}px`,

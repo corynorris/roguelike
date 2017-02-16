@@ -17,9 +17,6 @@ export const spawnSprite = (name, level, {x, y}) => ({
   y,
 })
 
-export const gameOver = () => ({
-  type: 'GAME_OVER',
-})
 
 export const setScreenOffset = (top, left) => ({
   type: 'SET_SCREEN_OFFSET',
@@ -30,6 +27,12 @@ export const setScreenOffset = (top, left) => ({
 export const destroySprite = (id) => ({
   type: 'DESTROY_SPRITE',
   id,
+})
+
+export const attackSprite = (id, damage) => ({
+  type: 'ATTACK_SPRITE',
+  id,
+  damage,
 })
 
 export const setSpriteHealth = (id, health) => ({
@@ -46,6 +49,19 @@ export const setSpritePower = (id, power) => ({
 
 export const toggleFog = () => ({
   type: 'TOGGLE_FOG',
+})
+
+export const setBlood = (value) => ({
+  type: 'SET_BLOOD',
+  value,
+})
+
+export const defeat = () => ({
+  type: 'DEFEAT',
+})
+
+export const victory = () => ({
+  type: 'VICTORY',
 })
 
 export const addExperience = (id, experience) => ({

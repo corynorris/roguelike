@@ -27,7 +27,7 @@ export function generateMap(width, height) {
       dungeon.tiles[x][y].x = x;
       dungeon.tiles[x][y].y = y;
 
-      // Seems these parameters are causing problems for redux dev tool
+      // Seems these parameters are causing problems for redux dev tool (and cyclical datastructures aren't supposed to be used with redux)
       delete dungeon.tiles[x][y].neighbours;
       delete dungeon.tiles[x][y].nesw;
     }

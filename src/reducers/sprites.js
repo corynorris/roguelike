@@ -46,6 +46,15 @@ export const sprite = (state = spriteInitialState, action) => {
         state,
         { power: action.power }
       );
+    case 'ATTACK_SPRITE':
+      if (state.id !== action.id) {
+        return state
+      }
+      return Object.assign(
+        {},
+        state,
+        { health: state.health - action.damage }
+      );
     case 'ADD_EXPERIENCE':
       if (state.id !== action.id) {
         return state
@@ -93,6 +102,10 @@ export const sprites = (state = spritesInitialState, action) => {
           e.id !== action.id
         )
       ];
+    case 'ATTACK_SPRITE':
+      return state.map(e =>
+        sprite(e, action)
+      );
     case 'SET_SPRITE_POSITION':
       return state.map(e =>
         sprite(e, action)

@@ -3,9 +3,11 @@ import Roguelike from '../presenters/Roguelike.jsx';
 import Game from '../core';
 import Const from '../core/constants';
 import {
-  setupGame,
+  defeat,
+  victory,
   spawnSprite,
   destroySprite,
+  attackSprite,
   setSpritePosition,
   setSpriteHealth,
   setSpritePower,
@@ -48,7 +50,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const setupGame = (dispatch, getState) => {
     const { rooms } = getState().map;
     const playerSpawn = Game.getSpawnFromRoom(rooms[0]);
-    const spawns = Game.getMultipleSpawns(rooms.slice(1), 50);
+    const spawns = Game.getMultipleSpawns(rooms.slice(1), 100);
 
     spawnSprites(Const.ENEMY, Const.ENEMY_LEVELS, Const.ENEMY_COUNT, spawns, dispatch);
     spawnSprites(Const.HEALTH, Const.HEALTH_LEVELS, Const.HEALTH_COUNT, spawns, dispatch);
@@ -65,8 +67,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(destroySprite(id));
     },
 
-    setHealth: (id, health) => {
+    healTo: (id, health) => {
       dispatch(setSpriteHealth(id, health));
+    },
+
+    attackSprite: (id, damage) => {
+      dispatch(attackSprite(id, damage));
     },
 
     setPower: (id, power) => {
@@ -89,11 +95,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(setupGame)
     },
 
+    defeat: () => {
+      dispatch(defeat());
+    },
+
+    vicory: () => {
+      dispatch(victory());
+    },
+
     resetGame: () => {
       dispatch(resetData());
-      const test = dispatch(setupGame)
-      console.log(test);
-      return test;
+      return dispatch(setupGame)
     },
 
     addExperience: (id, experience) => {

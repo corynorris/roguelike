@@ -18,11 +18,11 @@ export default class Const {
 
   static HEALTH = 'Health';
   static HEALTH_LEVELS = 6;
-  static HEALTH_COUNT = 15;
+  static HEALTH_COUNT = 20;
 
   static ENEMY = 'Enemy';
   static ENEMY_LEVELS = 9;
-  static ENEMY_COUNT = 25;
+  static ENEMY_COUNT = 40;
   static ENEMY_MAX_HEALTH = 300;
 
   static get TOTAL_ENTITIES() {
