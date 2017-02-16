@@ -10,6 +10,9 @@
   background-repeat: no-repeat;
 
 }
+.tile-fog {
+  background: black;
+}
 
 .tile-0 {
   background: url('/images/wallset.gif') 0px 0px;

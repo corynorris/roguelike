@@ -1,0 +1,17 @@
+.NavBar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  color: white;
+  background: black;
+  z-index: 1000;
+  border-bottom: solid 3px white;
+  border-left: solid 3px white;
+}
+
+.NavBar div {
+  padding: 10px 20px;
+}

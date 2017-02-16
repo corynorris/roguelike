@@ -2,17 +2,9 @@ export const generateMap = () => ({
   type: 'GENERATE_MAP',
 });
 
-export const spawn = (name, id, level, x, y) => ({
-  type: 'SPAWN_SPRITE',
-  name,
-  level,
+export const setSpritePosition = (id, x, y) => ({
+  type: 'SET_SPRITE_POSITION',
   id,
-  x,
-  y,
-})
-
-export const setPlayerPosition = (x, y) => ({
-  type: 'SET_PLAYER_POSITION',
   x,
   y,
 })
@@ -27,13 +19,27 @@ export const setScreenOffset = (top, left) => ({
   left,
 })
 
-export const setPlayerHealth = (health) => ({
-  type: 'SET_PLAYER_HEALTH',
+export const spawnSprite = (name, level, x, y) => ({
+  type: 'SPAWN_SPRITE',
+  name,
+  level,
+  x,
+  y,
+})
+
+export const destroySprite = (id) => ({
+  type: 'DESTROY_SPRITE',
+  id,
+})
+
+export const setSpriteHealth = (id, health) => ({
+  type: 'SET_SPRITE_HEALTH',
+  id,
   health,
 })
 
-export const setEnemyHealth = (id, health) => ({
-  type: 'SET_ENEMY_HEALTH',
+export const setSpritePower = (id, power) => ({
+  type: 'SET_SPRITE_POWER',
   id,
-  health,
+  power,
 })

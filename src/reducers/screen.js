@@ -2,6 +2,7 @@
 const screenInitialState = {
   top: 0,
   left: 0,
+  fog: true,
 }
 
 export const screen = (state = screenInitialState, action) => {

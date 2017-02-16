@@ -2,12 +2,11 @@ import React from 'react';
 import './Tile.css';
 
 export const Tile = ({
-  type,
   texture,
-  orig,
+  opacity,
 }) =>  {
   return (
-    <td className={ `tile tile-${texture} orig-${orig}` } />
+    <td className={ `tile tile-${texture}` } />
   );
 }
 

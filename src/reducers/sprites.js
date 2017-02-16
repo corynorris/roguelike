@@ -1,13 +1,15 @@
 import { weightedRange } from '../core/utils'
+import uuid from 'uuid';
+
 const spriteInitialState = {};
 
 export const sprite = (state = spriteInitialState, action) => {
   switch (action.type) {
     case 'SPAWN_SPRITE':
-      const health = weightedRange(100, 150+(100*action.level), action.level);
-      const power = weightedRange(40, 50+(20*action.level), action.level);
+      const health = weightedRange(100, 150 + (100 * action.level), action.level);
+      const power = weightedRange(40, 50 + (20 * action.level), action.level);
       return {
-        id: action.id,
+        id: uuid.v4(),
         power: power,
         health: health,
         maxHealth: health,
@@ -34,6 +36,15 @@ export const sprite = (state = spriteInitialState, action) => {
         state,
         { health: action.health }
       );
+    case 'SET_SPRITE_POWER':
+      if (state.id !== action.id) {
+        return state
+      }
+      return Object.assign(
+        {},
+        state,
+        { power: action.power }
+      );
     default:
       return state
   }
@@ -48,6 +59,12 @@ export const sprites = (state = spritesInitialState, action) => {
         ...state,
         sprite(undefined, action)
       ];
+    case 'DESTROY_SPRITE':
+      return [
+        ...state.filter(e => 
+            e.id !== action.id 
+          ) 
+      ];
     case 'SET_SPRITE_POSITION':
       return state.map(e =>
         sprite(e, action)
@@ -56,6 +73,11 @@ export const sprites = (state = spritesInitialState, action) => {
       return state.map(e =>
         sprite(e, action)
       );
+    case 'SET_SPRITE_POWER':
+      return state.map(e =>
+        sprite(e, action)
+      );
+
     default:
       return state
   }

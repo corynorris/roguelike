@@ -23,15 +23,17 @@ export function generateMap(width, height) {
       } else if (type === 'floor' || type === 'door') {
         dungeon.tiles[x][y].texture = '15';
       }
+      // convenience
+      dungeon.tiles[x][y].x = x;
+      dungeon.tiles[x][y].y = y;
+
       // Seems these parameters are causing problems for redux dev tool
       delete dungeon.tiles[x][y].neighbours;
       delete dungeon.tiles[x][y].nesw;
     }
   }
 
-
   return dungeon;
-
 }
 
 export function getSpawnFromRoom(room) {
@@ -47,9 +49,10 @@ export function getRandomSpawn(rooms) {
 }
 
 export function getMultipleSpawns(rooms, n) {
-  let spawns = new Set();
+  let spawns = new Map();
   while (spawns.size < n) {
-    spawns.add(getRandomSpawn(rooms))
+    const spawn = getRandomSpawn(rooms);
+    spawns.set(`${spawn.x}x${spawn.y}`, spawn)
   }
-  return [...spawns];
+  return [...spawns.values()];
 }

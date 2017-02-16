@@ -4,6 +4,7 @@ import Enemies from '../containers/Enemies';
 import Player from '../containers/Player';
 import HealthPacks from '../containers/HealthPacks';
 import Weapons from '../containers/Weapons';
+import StatsBar from '../containers/StatsBar';
 import Boss from '../containers/Boss';
 import Game from '../core';
 import Const from '../core/constants';
@@ -14,7 +15,7 @@ class Roguelike extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  centerOnPlayer(playerX, playerY) {
+  centerOn(x, y) {
     var w = window,
       d = document,
       e = d.documentElement,
@@ -22,17 +23,25 @@ class Roguelike extends Component {
       windowX = w.innerWidth || e.clientWidth || g.clientWidth,
       windowY = w.innerHeight || e.clientHeight || g.clientHeight;
 
-    return {
-      left: (windowX / 2 - playerX),
-      top: (windowY / 2 - playerY),
-    }
+    this.props.setScreen({
+      left: (windowX / 2 - x * Const.UNIT_WIDTH),
+      top: (windowY / 2 - y * Const.UNIT_HEIGHT),
+    })
   }
 
-  spawn(type, maxLevel, count, spriteSpawns) {
-    for (let id = 0; id < count; id++) {
-      let level = id % maxLevel + 1;
+  centerOnPlayer() {
+    const {x, y} = this.props.player;
+    this.centerOn(
+      x,
+      y
+    );
+  }
+
+  spawn(type, maxLevel, count, spawns) {
+    for (let i = 0; i < count; i++) {
+      let level = i % maxLevel + 1;
       this.props.spawn(
-        type, id, level, spriteSpawns.pop()
+        type, level, spawns.pop()
       );
     }
   }
@@ -40,35 +49,79 @@ class Roguelike extends Component {
   setupGame() {
     const rooms = this.props.rooms;
     const playerSpawn = Game.getSpawnFromRoom(rooms[0]);
-    const spriteSpawns = Game.getMultipleSpawns(rooms.slice(1), 50);
+    const spawns = Game.getMultipleSpawns(rooms.slice(1), 50);
 
-    this.spawn(Const.ENEMY, Const.ENEMY_LEVELS, Const.ENEMY_COUNT, spriteSpawns)
-    this.spawn(Const.HEALTH, Const.HEALTH_LEVELS, Const.HEALTH_COUNT, spriteSpawns)
-    this.spawn(Const.WEAPON, Const.WEAPON_LEVELS, Const.WEAPON_COUNT, spriteSpawns)
+    this.spawn(Const.ENEMY, Const.ENEMY_LEVELS, Const.ENEMY_COUNT, spawns)
+    this.spawn(Const.HEALTH, Const.HEALTH_LEVELS, Const.HEALTH_COUNT, spawns)
+    this.spawn(Const.WEAPON, Const.WEAPON_LEVELS, Const.WEAPON_COUNT, spawns)
 
-    this.props.spawn(Const.BOSS, Const.BOSS_LEVELS, Const.BOSS_COUNT, spriteSpawns.pop())
-    this.props.spawn(Const.PLAYER, Const.PLAYER_LEVELS, Const.PLAYER_COUNT, playerSpawn)
+    this.props.spawn(Const.BOSS, Const.BOSS_LEVELS, spawns.pop())
+    this.props.spawn(Const.PLAYER, 1, playerSpawn)
 
-    const center = this.centerOnPlayer(
-      playerSpawn.x * Const.UNIT_WIDTH,
-      playerSpawn.y * Const.UNIT_HEIGHT
+    this.centerOn(
+      playerSpawn.x,
+      playerSpawn.y
     );
-
-    this.props.setScreen(center);
-
   }
 
   componentWillMount() {
     this.setupGame();
   }
 
+  componentDidMount() {
+    window.onresize = this.centerOnPlayer.bind(this);
+  }
+
+  handleSprites(coord) {
+    const { sprites, player } = this.props;
+    if (sprites.has(coord)) {
+      const sprite = sprites.get(coord);
+      switch (sprite.name) {
+        case Const.ENEMY:
+          break;
+        case Const.HEALTH:
+          this.props.setHealth(
+            player.id,
+            player.health + sprite.health
+          )
+          this.props.destroy(
+            sprite.id
+          )
+          break;
+        case Const.WEAPON:
+          this.props.setPower(
+            player.id,
+            player.power + sprite.power
+          )
+          this.props.destroy(
+            sprite.id
+          )
+          break;
+        default:
+          return;
+      }
+    }
+  }
+
+  movePlayer(x, y) {
+    const coord = `${x}x${y}`;
+    const { tiles, sprites, player } = this.props;
+
+    if (sprites.has(coord)) {
+      return this.handleSprites(coord)
+    }
+
+    if (tiles[x][y].type !== 'wall') {
+      this.centerOn(x, y);
+      return this.props.moveSprite(player.id, x, y);
+    }
+  }
 
 
   handleKeyPress(e) {
     if (e.key.indexOf('Arrow') >= 0) { e.preventDefault(); }
-
-    let {x, y} = player;
-    switch (key) {
+    let {x, y} = this.props.player;
+    switch (e.key) {
       case 'w':
       case 'ArrowUp':
         y -= 1;
@@ -88,54 +141,37 @@ class Roguelike extends Component {
       default:
         return;
     }
-
-        
-    if (tiles[x][y].type !== 'wall') {
-      // Check if tile has enemies
-      const enemiesOnTile = enemies.filter(enemy =>
-        enemy.x === x && enemy.y === y && enemy.health > 0
-      )
-
-      if (enemiesOnTile.length > 0) {
-        for (let i = 0; i < enemiesOnTile.length; i++) {
-          // calculate player health
-          const enemy = enemiesOnTile[i];
-          enemy.health -= player.power;
-          player.health -= enemy.power;
-
-          if (player.health > 0) {
-            console.log('set enemy health')
-            dispatch(setEnemyHealth(enemy.id, enemy.health));
-            dispatch(setPlayerHealth(player.health));
-          } else {
-            dispatch(gameOver());
-          }
-        }
-        // calculate enemy health
-      } else {
-        dispatch(setPlayerPosition(x, y));
-      }
-    }
+    this.movePlayer(x, y);
   }
 
   render() {
-
-
     return (
       <div
         tabIndex="0"
-        onKeyDown={this.handleKeyPress}
-        style={{
-          left: `${this.props.screen.left}px`,
-          top: `${this.props.screen.top}px`,
-          position: 'fixed'
-        }}>
-        <Map />
-        <Player />
-        <HealthPacks />
-        <Weapons />
-        <Boss />
-        <Enemies />
+        onKeyDown={this.handleKeyPress}>
+        <StatsBar />
+        <div style={{
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 3,
+          backgroundImage: 'radial-gradient(circle farthest-corner at center, rgba(0,0,0,0) 0px, rgba(0,0,0,0.6) 40px, rgba(0,0,0,1) 80px, rgba(0,0,0,1) 100%)'
+        }} />
+        <div
+          style={{
+            left: `${this.props.screen.left}px`,
+            top: `${this.props.screen.top}px`,
+            position: 'fixed'
+          }}>
+          <Map />
+          <Player />
+          <HealthPacks />
+          <Weapons />
+          <Boss />
+          <Enemies />
+        </div>
       </div>
     );
   }
