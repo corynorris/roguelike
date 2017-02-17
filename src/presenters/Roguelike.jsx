@@ -42,10 +42,7 @@ class Roguelike extends Component {
     this.centerOn(x, y);
   }
 
-  componentWillMount() {
-    const {x, y} = this.props.setupGame(this.props.rooms);
-    this.centerOn(x, y);
-  }
+
 
   componentDidMount() {
     window.onresize = this.centerOnPlayer.bind(this);
@@ -143,26 +140,27 @@ class Roguelike extends Component {
 
 
   handleKeyPress(e) {
-    if (e.key.indexOf('Arrow') >= 0) { e.preventDefault(); }
+    const key = e.which;
+    if (key >= 37 && key <= 40) { e.preventDefault(); }
     let {x, y} = this.props.player;
-    switch (e.key) {
-      case 'r':
+    switch (key) {
+      case 82:
         this.resetGame();
         break;
-      case 'w':
-      case 'ArrowUp':
+      case 87:
+      case 38:
         y -= 1;
         break;
-      case 's':
-      case 'ArrowDown':
+      case 83:
+      case 40:
         y += 1;
         break;
-      case 'a':
-      case 'ArrowLeft':
+      case 65:
+      case 37:
         x -= 1;
         break;
-      case 'd':
-      case 'ArrowRight':
+      case 68:
+      case 39:
         x += 1;
         break;
       case 'h':
@@ -173,12 +171,16 @@ class Roguelike extends Component {
     }
     this.movePlayer(x, y);
   }
+  
+  componentWillMount() {
+    const {x, y} = this.props.setupGame(this.props.rooms);
+    this.centerOn(x, y);
+    window.addEventListener("keydown", this.handleKeyPress.bind(this));
+  }
 
   render() {
     return (
-      <div
-        tabIndex="0"
-        onKeyDown={this.handleKeyPress}>
+      <div>
         <StatsBar />
         <Effects />
         <div
