@@ -163,7 +163,7 @@ class Roguelike extends Component {
       case 39:
         x += 1;
         break;
-      case 'h':
+      case 72:
         this.props.toggleFog();
         break;
       default:
