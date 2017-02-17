@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * @desc Class for a single tilein a dungeon

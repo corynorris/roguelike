@@ -8,7 +8,7 @@ import Weapons from '../containers/Weapons';
 import StatsBar from '../containers/StatsBar';
 import Boss from '../containers/Boss';
 import Const from '../core/constants';
-
+import detectSwipe from '../core/detectSwipe';
 class Roguelike extends Component {
   constructor(props) {
     super(props);
@@ -43,10 +43,6 @@ class Roguelike extends Component {
   }
 
 
-
-  componentDidMount() {
-    window.onresize = this.centerOnPlayer.bind(this);
-  }
 
   battleEnemy(enemy) {
     const { player } = this.props;
@@ -138,6 +134,26 @@ class Roguelike extends Component {
     }
   }
 
+  handleSwipe(direction) {
+    let {x, y} = this.props.player;
+    switch (direction) {
+      case 'left':
+        x -= 1;
+        break
+      case 'right':
+        x += 1;
+        break;
+      case 'up':
+        y -= 1;
+        break;
+      case 'down':
+        y += 1;
+        break;
+      default:
+        return;
+    }
+    this.movePlayer(x, y);
+  }
 
   handleKeyPress(e) {
     const key = e.which;
@@ -171,11 +187,16 @@ class Roguelike extends Component {
     }
     this.movePlayer(x, y);
   }
-  
+
   componentWillMount() {
     const {x, y} = this.props.setupGame(this.props.rooms);
     this.centerOn(x, y);
+  }
+
+  componentDidMount() {
+    detectSwipe(window, this.handleSwipe.bind(this));
     window.addEventListener("keydown", this.handleKeyPress.bind(this));
+    window.onresize = this.centerOnPlayer.bind(this);
   }
 
   render() {

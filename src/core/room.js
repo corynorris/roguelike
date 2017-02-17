@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * @desc Helper class for drawing rooms when generating dungeons

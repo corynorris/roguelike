@@ -3,7 +3,7 @@
  * http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
  */
 
-'use strict';
+
 
 const Victor = require('victor');
 const _ = require('underscore');
