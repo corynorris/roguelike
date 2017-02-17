@@ -99,7 +99,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(defeat());
     },
 
-    vicory: () => {
+    victory: () => {
       dispatch(victory());
     },
 

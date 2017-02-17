@@ -136,6 +136,7 @@ class Roguelike extends Component {
 
   handleSwipe(direction) {
     let {x, y} = this.props.player;
+    
     switch (direction) {
       case 'left':
         x -= 1;
