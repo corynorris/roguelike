@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/roguelike/static/css/main.85c6d4df.chunk.css",
+    "main.js": "/roguelike/static/js/main.ff09f274.chunk.js",
+    "main.js.map": "/roguelike/static/js/main.ff09f274.chunk.js.map",
+    "runtime-main.js": "/roguelike/static/js/runtime-main.2375ff27.js",
+    "runtime-main.js.map": "/roguelike/static/js/runtime-main.2375ff27.js.map",
+    "static/js/2.fcaed037.chunk.js": "/roguelike/static/js/2.fcaed037.chunk.js",
+    "static/js/2.fcaed037.chunk.js.map": "/roguelike/static/js/2.fcaed037.chunk.js.map",
+    "index.html": "/roguelike/index.html",
+    "static/css/main.85c6d4df.chunk.css.map": "/roguelike/static/css/main.85c6d4df.chunk.css.map",
+    "static/js/2.fcaed037.chunk.js.LICENSE.txt": "/roguelike/static/js/2.fcaed037.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2375ff27.js",
+    "static/js/2.fcaed037.chunk.js",
+    "static/css/main.85c6d4df.chunk.css",
+    "static/js/main.ff09f274.chunk.js"
+  ]
+}
