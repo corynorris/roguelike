@@ -4,7 +4,7 @@
 This project implements a roguelike dungeon crawler using react & redux.
 
 ## Demo
-https://roguelike.corynorris.me/
+https://corynorris.github.io/roguelike/
 
 ### Controls
 #### Movement
