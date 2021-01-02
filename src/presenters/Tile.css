@@ -15,78 +15,78 @@
 }
 
 .tile-0 {
-  background: url('/images/wallset.gif') 0px 0px;
+  background: url(./images/wallset.gif) 0px 0px;
 }
 
 
 .tile-1 {
-  background: url('/images/wallset.gif') -16px 0px;
+  background: url(./images/wallset.gif) -16px 0px;
 }
 
 
 .tile-2 {
-  background: url('/images/wallset.gif') -32px 0px;
+  background: url(./images/wallset.gif) -32px 0px;
 }
 
 
 .tile-3 {
-  background: url('/images/wallset.gif') -48px 0px;
+  background: url(./images/wallset.gif) -48px 0px;
 }
 
 .tile-4 {
-  background: url('/images/wallset.gif') 0px -16px;
+  background: url(./images/wallset.gif) 0px -16px;
 }
 
 
 .tile-5 {
-  background: url('/images/wallset.gif') -16px -16px;
+  background: url(./images/wallset.gif) -16px -16px;
 }
 
 
 .tile-6 {
-  background: url('/images/wallset.gif') -32px -16px;
+  background: url(./images/wallset.gif) -32px -16px;
 }
 
 
 .tile-7 {
-  background: url('/images/wallset.gif') -48px -16px;
+  background: url(./images/wallset.gif) -48px -16px;
 }
 
 
 .tile-8 {
-  background: url('/images/wallset.gif') 0px -32px;
+  background: url(./images/wallset.gif) 0px -32px;
 }
 
 
 .tile-9 {
-  background: url('/images/wallset.gif') -16px -32px;
+  background: url(./images/wallset.gif) -16px -32px;
 }
 
 .tile-10 {
-  background: url('/images/wallset.gif') -32px -32px;
+  background: url(./images/wallset.gif) -32px -32px;
 }
 
 .tile-11 {
-  background: url('/images/wallset.gif') -48px -32px;
+  background: url(./images/wallset.gif) -48px -32px;
 }
 
 .tile-12 {
-  background: url('/images/wallset.gif') 0px -48px;
+  background: url(./images/wallset.gif) 0px -48px;
 }
 
 
 .tile-13 {
-  background: url('/images/wallset.gif') -16px -48px;
+  background: url(./images/wallset.gif) -16px -48px;
 }
 
 
 .tile-14 {
-  background: url('/images/wallset.gif') -32px -48px;
+  background: url(./images/wallset.gif) -32px -48px;
 }
 
 
 .tile-15 {
-  background: url('/images/wallset.gif') -48px -48px;
+  background: url(./images/wallset.gif) -48px -48px;
 }
 
 .empty {
@@ -94,5 +94,5 @@
 }
 
 .door {
-  background: url('/images/wallset.gif') -48px -48px;
+  background: url(./images/wallset.gif) -48px -48px;
 }

@@ -1,7 +1,7 @@
-import DungeonFactory from './generator';
+import dungeoneer from 'dungeoneer';
 
 export default function generateDungeon(width, height) {
-  const dungeon = DungeonFactory.generate({
+  const dungeon = dungeoneer.build({
     width,
     height,
   });
@@ -14,12 +14,12 @@ export default function generateDungeon(width, height) {
     return this.tiles[x][y];
   }
 
-  dungeon.check = function(x, y, type, outOfBounds = false) {
-    if (!this.get(x,y) && outOfBounds) return true;
+  dungeon.check = function (x, y, type, outOfBounds = false) {
+    if (!this.get(x, y) && outOfBounds) return true;
     return (this.get(x, y) && this.get(x, y).type === type);
   }
 
-  dungeon.get4BitMask= function(x, y, type, outOfBounds = false) {
+  dungeon.get4BitMask = function (x, y, type, outOfBounds = false) {
     let N = this.check(x, y - 1, type, outOfBounds);
     let E = this.check(x + 1, y, type, outOfBounds);
     let S = this.check(x, y + 1, type, outOfBounds);
@@ -27,7 +27,7 @@ export default function generateDungeon(width, height) {
     return `${+N}${+E}${+S}${+W}`;
   }
 
-  dungeon.get8BitMask = function(x, y, type, outOfBounds = false) {
+  dungeon.get8BitMask = function (x, y, type, outOfBounds = false) {
     let NW = this.check(x - 1, y - 1, type, outOfBounds);
     let N = this.check(x, y - 1, type, outOfBounds);
     let NE = this.check(x + 1, y - 1, type, outOfBounds);
