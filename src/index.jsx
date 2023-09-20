@@ -1,13 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 import thunk from 'redux-thunk';
-import roguelikeApp from './reducers';
 import Game from './containers/Game';
 import './index.css';
+import roguelikeApp from './reducers';
 
 
 let store = createStore(
@@ -15,9 +15,10 @@ let store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"));
+root.render(
   <Provider store={store} >
     <Game />
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
+
