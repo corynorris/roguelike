@@ -72,7 +72,7 @@ class Roguelike extends Component<RoguelikeProps, RoguelikeState> {
   battleEnemy(enemy: SpriteData) {
     const { player } = this.props;
 
-    const playerHealth = player.health - enemy.power;
+    // Player attacks enemy without taking counter-damage
     const enemyHealth = enemy.health - player.power;
 
     if (enemyHealth <= 0) {
@@ -88,12 +88,6 @@ class Roguelike extends Component<RoguelikeProps, RoguelikeState> {
       return;
     }
 
-    if (playerHealth <= 0) {
-      this.props.defeat();
-      return;
-    }
-
-    this.props.attackSprite(player.id, enemy.power);
     this.props.attackSprite(enemy.id, player.power);
   }
 

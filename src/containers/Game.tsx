@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 
     advanceTurn: () => {
       dispatch(
-        (dispatch: AppDispatch, getState: () => RootState) => {
+        async (dispatch: AppDispatch, getState: () => RootState) => {
           const state = getState();
           const dungeon = state.map;
           const player = state.sprites.find(
@@ -164,71 +164,121 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
             }
           });
 
-          // Also include telegraphed positions so enemies don't telegraph onto
-          // a tile another enemy already claimed
-          updatedState.sprites.forEach((s) => {
-            if (s.intentX != null && s.intentY != null) {
-              occupied.add(`${s.intentX}x${s.intentY}`);
-            }
-          });
-
           const enemies = updatedState.sprites.filter(
             (s) =>
               (s.name === Const.ENEMY || s.name === Const.BOSS) &&
               s.health > 0,
           );
 
+          // First pass: decide moves for all enemies whose cooldown reached 0
+          interface EnemyPlan {
+            enemyId: string;
+            enemyPower: number;
+            targetX: number;
+            targetY: number;
+            attackPlayer: boolean; // true if adjacent to player (attack, don't move)
+          }
+          const plans: EnemyPlan[] = [];
+
           for (const enemy of enemies) {
-            const hasIntent =
-              enemy.intentX != null && enemy.intentY != null;
+            if (enemy.cooldown !== 0) continue;
 
-            if (enemy.cooldown === 0 && hasIntent) {
-              // Execute the telegraphed move
-              const targetX = enemy.intentX!;
-              const targetY = enemy.intentY!;
+            // Check if enemy is adjacent to player → attack, don't move
+            const distToPlayer =
+              Math.abs(enemy.x - player.x) +
+              Math.abs(enemy.y - player.y);
 
-              dispatch(executeEnemyMove(enemy.id, targetX, targetY));
+            if (distToPlayer === 1) {
+              // Attack the player from current position
+              plans.push({
+                enemyId: enemy.id,
+                enemyPower: enemy.power,
+                targetX: enemy.x,
+                targetY: enemy.y,
+                attackPlayer: true,
+              });
+              continue;
+            }
 
-              // Check if enemy landed on the player
-              if (targetX === player.x && targetY === player.y) {
-                // Enemy attacks player
-                dispatch(attackSprite(player.id, enemy.power));
-                // Player counter-attacks
-                dispatch(attackSprite(enemy.id, player.power));
-              }
+            // Get AI move target
+            const target = getEnemyMove(
+              enemy,
+              player,
+              dungeon,
+              occupied,
+            );
 
-              // Check if enemy landed on an item and destroy it
-              const itemOnTile = updatedState.sprites.find(
-                (s) =>
-                  s.health > 0 &&
-                  s.x === targetX &&
-                  s.y === targetY &&
-                  s.name !== Const.ENEMY &&
-                  s.name !== Const.BOSS &&
-                  s.name !== Const.PLAYER &&
-                  s.id !== enemy.id,
-              );
-              if (itemOnTile) {
-                dispatch(destroySprite(itemOnTile.id));
-              }
-            } else if (enemy.cooldown === 0 && !hasIntent) {
-              // Set intent (telegraph) for next turn
-              const target = getEnemyMove(
-                enemy,
-                player,
-                dungeon,
-                occupied,
-              );
+            if (target) {
+              // Reserve this tile
+              occupied.add(`${target.x}x${target.y}`);
+              plans.push({
+                enemyId: enemy.id,
+                enemyPower: enemy.power,
+                targetX: target.x,
+                targetY: target.y,
+                attackPlayer: false,
+              });
+            }
+            // If no target, enemy stays put; cooldown stays at 0 until
+            // a valid tile becomes available
+          }
 
-              if (target) {
-                dispatch(
-                  setEnemyIntent(enemy.id, target.x, target.y),
-                );
-                // Reserve this tile so other enemies don't target it
-                occupied.add(`${target.x}x${target.y}`);
-              }
-              // If no valid target, enemy stays put (cooldown will stay at 0
-              // and it'll try again next turn)
+          if (plans.length === 0) return;
+
+          // Handle attacks (no telegraph needed — direct damage)
+          const attackPlans = plans.filter((p) => p.attackPlayer);
+          const movePlans = plans.filter((p) => !p.attackPlayer);
+
+          for (const plan of attackPlans) {
+            dispatch(attackSprite(player.id, plan.enemyPower));
+          }
+
+          // Check if the player died from enemy attacks
+          const postAttackState = getState();
+          const playerAfterAttacks = postAttackState.sprites.find(
+            (s) => s.name === Const.PLAYER && s.health > 0,
+          );
+          if (!playerAfterAttacks) {
+            dispatch(defeat());
+            return;
+          }
+
+          if (movePlans.length === 0) return;
+
+          // Telegraph all moves at once
+          for (const plan of movePlans) {
+            dispatch(
+              setEnemyIntent(plan.enemyId, plan.targetX, plan.targetY),
+            );
+          }
+
+          // Brief delay so the telegraph is visible before the move
+          await new Promise((r) => setTimeout(r, 80));
+
+          // Execute all moves
+          for (const plan of movePlans) {
+            dispatch(
+              executeEnemyMove(
+                plan.enemyId,
+                plan.targetX,
+                plan.targetY,
+              ),
+            );
+
+            // Check if enemy landed on an item and destroy it
+            const currentState = getState();
+            const itemOnTile = currentState.sprites.find(
+              (s) =>
+                s.health > 0 &&
+                s.x === plan.targetX &&
+                s.y === plan.targetY &&
+                s.name !== Const.ENEMY &&
+                s.name !== Const.BOSS &&
+                s.name !== Const.PLAYER &&
+                s.id !== plan.enemyId,
+            );
+            if (itemOnTile) {
+              dispatch(destroySprite(itemOnTile.id));
             }
           }
         },
