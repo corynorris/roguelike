@@ -19,7 +19,7 @@ export const effects = (state = effectsInitialState, action) => {
       });    
     case 'SET_BLOOD':
       return Object.assign({}, state, {
-        blood: state.value
+        blood: action.value
       });
     case 'DEFEAT':
       return Object.assign({}, state, {

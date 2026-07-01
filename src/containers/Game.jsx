@@ -17,20 +17,26 @@ import {
   toggleFog
 } from '../actions';
 
+let prevSprites = null;
+let cachedMap = null;
+
 const mapStateToProps = (state, ownProps) => {
+  if (prevSprites !== state.sprites) {
+    const sprites = new Map();
+    state.sprites.forEach(sprite => {
+      sprites.set(`${sprite.x}x${sprite.y}`, sprite)
+    })
+    cachedMap = sprites;
+    prevSprites = state.sprites;
+  }
 
-  const sprites = new Map();
   const player = state.sprites.filter(sprite => sprite.name === Const.PLAYER)[0];
-  state.sprites.forEach(sprite => {
-    sprites.set(`${sprite.x}x${sprite.y}`, sprite)
-  })
-
 
   return {
     tiles: state.map.tiles,
     rooms: state.map.rooms,
     screen: state.screen,
-    sprites: sprites,
+    sprites: cachedMap,
     player: player,
     game: state.game,
   }

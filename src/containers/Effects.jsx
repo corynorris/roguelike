@@ -4,7 +4,7 @@ import { setBlood } from '../actions';
 import Overlay from '../presenters/Overlay.jsx';
 
 
-const Effects = (props, refs) => {
+const Effects = (props) => {
 
   if (props.defeat) {
     return (
@@ -51,10 +51,7 @@ const Effects = (props, refs) => {
   }
 
   if (props.blood) {
-    setTimeout(
-      props.disableBlood.bind(this),
-      175
-    )
+    setTimeout(props.disableBlood, 175)
     return (
       <Overlay
         zIndex={3}

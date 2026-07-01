@@ -189,12 +189,9 @@ class Roguelike extends Component {
     this.movePlayer(x, y);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {x, y} = this.props.setupGame(this.props.rooms);
     this.centerOn(x, y);
-  }
-
-  componentDidMount() {
     detectSwipe(window, this.handleSwipe.bind(this));
     window.addEventListener("keydown", this.handleKeyPress.bind(this));
     window.onresize = this.centerOnPlayer.bind(this);

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { rollXDice } from './utils';
 
 it('rolls a single die within a range of 1-6', () => {

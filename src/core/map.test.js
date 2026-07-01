@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { generateMap, getMultipleSpawns, getRandomSpawn, getSpawnFromRoom } from './map';
 
 it('creates a map', () => {
