@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import Roguelike from "../presenters/Roguelike";
 import Game from "../core";
 import Const from "../core/constants";
+import { getEnemyMove } from "../core/enemy-ai";
 import { RootState } from "../reducers";
 import { SpriteData, Coord } from "../types";
 import {
@@ -17,6 +18,9 @@ import {
   setScreenOffset,
   resetData,
   toggleFog,
+  advanceTurn,
+  setEnemyIntent,
+  executeEnemyMove,
 } from "../actions";
 import type { ThunkDispatch } from "redux-thunk";
 import type { Action } from "../actions";
@@ -40,12 +44,21 @@ const mapStateToProps = (state: RootState) => {
     (sprite) => sprite.name === Const.PLAYER,
   )[0];
 
+  // Build telegraph map: coordinate key → enemy moveSpeed
+  const telegraphs = new Map<string, number>();
+  state.sprites.forEach((sprite) => {
+    if (sprite.intentX != null && sprite.intentY != null) {
+      telegraphs.set(`${sprite.intentX}x${sprite.intentY}`, sprite.moveSpeed);
+    }
+  });
+
   return {
     tiles: state.map.tiles,
     rooms: state.map.rooms,
     screen: state.screen,
-    sprites: cachedMap,
+    sprites: cachedMap as Map<string, SpriteData>,
     player: player,
+    telegraphs,
   };
 };
 
@@ -125,6 +138,101 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 
     addExperience: (id: string, experience: number) => {
       dispatch(addExperience(id, experience));
+    },
+
+    advanceTurn: () => {
+      dispatch(
+        (dispatch: AppDispatch, getState: () => RootState) => {
+          const state = getState();
+          const dungeon = state.map;
+          const player = state.sprites.find(
+            (s) => s.name === Const.PLAYER && s.health > 0,
+          );
+          if (!player) return;
+
+          // Decrement cooldowns for all enemies
+          dispatch(advanceTurn());
+
+          // Get updated state after cooldown decrement
+          const updatedState = getState();
+
+          // Build occupied tiles set (all live sprites at their current positions)
+          const occupied = new Set<string>();
+          updatedState.sprites.forEach((s) => {
+            if (s.health > 0) {
+              occupied.add(`${s.x}x${s.y}`);
+            }
+          });
+
+          // Also include telegraphed positions so enemies don't telegraph onto
+          // a tile another enemy already claimed
+          updatedState.sprites.forEach((s) => {
+            if (s.intentX != null && s.intentY != null) {
+              occupied.add(`${s.intentX}x${s.intentY}`);
+            }
+          });
+
+          const enemies = updatedState.sprites.filter(
+            (s) =>
+              (s.name === Const.ENEMY || s.name === Const.BOSS) &&
+              s.health > 0,
+          );
+
+          for (const enemy of enemies) {
+            const hasIntent =
+              enemy.intentX != null && enemy.intentY != null;
+
+            if (enemy.cooldown === 0 && hasIntent) {
+              // Execute the telegraphed move
+              const targetX = enemy.intentX!;
+              const targetY = enemy.intentY!;
+
+              dispatch(executeEnemyMove(enemy.id, targetX, targetY));
+
+              // Check if enemy landed on the player
+              if (targetX === player.x && targetY === player.y) {
+                // Enemy attacks player
+                dispatch(attackSprite(player.id, enemy.power));
+                // Player counter-attacks
+                dispatch(attackSprite(enemy.id, player.power));
+              }
+
+              // Check if enemy landed on an item and destroy it
+              const itemOnTile = updatedState.sprites.find(
+                (s) =>
+                  s.health > 0 &&
+                  s.x === targetX &&
+                  s.y === targetY &&
+                  s.name !== Const.ENEMY &&
+                  s.name !== Const.BOSS &&
+                  s.name !== Const.PLAYER &&
+                  s.id !== enemy.id,
+              );
+              if (itemOnTile) {
+                dispatch(destroySprite(itemOnTile.id));
+              }
+            } else if (enemy.cooldown === 0 && !hasIntent) {
+              // Set intent (telegraph) for next turn
+              const target = getEnemyMove(
+                enemy,
+                player,
+                dungeon,
+                occupied,
+              );
+
+              if (target) {
+                dispatch(
+                  setEnemyIntent(enemy.id, target.x, target.y),
+                );
+                // Reserve this tile so other enemies don't target it
+                occupied.add(`${target.x}x${target.y}`);
+              }
+              // If no valid target, enemy stays put (cooldown will stay at 0
+              // and it'll try again next turn)
+            }
+          }
+        },
+      );
     },
   };
 };
