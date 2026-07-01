@@ -25,6 +25,14 @@ export default class Const {
   static ENEMY_COUNT = 40;
   static ENEMY_MAX_HEALTH = 300;
 
+  // Move speed by enemy level (index 0 = level 1)
+  static ENEMY_MOVE_SPEEDS = [4, 3, 3, 2, 2, 2, 1, 1, 1];
+  // Manhattan distance threshold for switching from wander to chase
+  static ENEMY_CHASE_RANGE = 8;
+
+  static BOSS_MOVE_SPEED = 2;
+  static BOSS_CHASE_RANGE = 12;
+
   static get TOTAL_ENTITIES() {
     return (
       Const.ENEMY_COUNT +

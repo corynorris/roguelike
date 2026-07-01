@@ -44,6 +44,10 @@ export interface SpriteData {
   y: number;
   name: string;
   experience: number;
+  moveSpeed: number;
+  cooldown: number;
+  intentX?: number;
+  intentY?: number;
 }
 
 export interface MapState {
@@ -65,11 +69,16 @@ export interface EffectsState {
   blood: boolean;
 }
 
+export interface TurnState {
+  count: number;
+}
+
 export interface RoguelikeState {
   sprites: SpriteData[];
   map: MapState;
   screen: ScreenState;
   effects: EffectsState;
+  turns: TurnState;
 }
 
 export type Direction = "left" | "right" | "up" | "down";

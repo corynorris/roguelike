@@ -71,6 +71,29 @@ export interface AddExperienceAction {
   experience: number;
 }
 
+export interface AdvanceTurnAction {
+  type: "ADVANCE_TURN";
+}
+
+export interface SetEnemyIntentAction {
+  type: "SET_ENEMY_INTENT";
+  id: string;
+  x: number;
+  y: number;
+}
+
+export interface ClearEnemyIntentAction {
+  type: "CLEAR_ENEMY_INTENT";
+  id: string;
+}
+
+export interface ExecuteEnemyMoveAction {
+  type: "EXECUTE_ENEMY_MOVE";
+  id: string;
+  x: number;
+  y: number;
+}
+
 export type Action =
   | ResetDataAction
   | SetSpritePositionAction
@@ -84,7 +107,11 @@ export type Action =
   | SetBloodAction
   | DefeatAction
   | VictoryAction
-  | AddExperienceAction;
+  | AddExperienceAction
+  | AdvanceTurnAction
+  | SetEnemyIntentAction
+  | ClearEnemyIntentAction
+  | ExecuteEnemyMoveAction;
 
 export const resetData = (): ResetDataAction => ({
   type: "RESET_DATA",
@@ -178,4 +205,35 @@ export const addExperience = (
   type: "ADD_EXPERIENCE",
   id,
   experience,
+});
+
+export const advanceTurn = (): AdvanceTurnAction => ({
+  type: "ADVANCE_TURN",
+});
+
+export const setEnemyIntent = (
+  id: string,
+  x: number,
+  y: number,
+): SetEnemyIntentAction => ({
+  type: "SET_ENEMY_INTENT",
+  id,
+  x,
+  y,
+});
+
+export const clearEnemyIntent = (id: string): ClearEnemyIntentAction => ({
+  type: "CLEAR_ENEMY_INTENT",
+  id,
+});
+
+export const executeEnemyMove = (
+  id: string,
+  x: number,
+  y: number,
+): ExecuteEnemyMoveAction => ({
+  type: "EXECUTE_ENEMY_MOVE",
+  id,
+  x,
+  y,
 });

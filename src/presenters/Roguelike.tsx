@@ -28,6 +28,7 @@ interface RoguelikeProps {
   defeat: () => void;
   victory: () => void;
   addExperience: (id: string, experience: number) => void;
+  advanceTurn: () => void;
 }
 
 interface RoguelikeState {
@@ -71,7 +72,7 @@ class Roguelike extends Component<RoguelikeProps, RoguelikeState> {
   battleEnemy(enemy: SpriteData) {
     const { player } = this.props;
 
-    const playerHealth = player.health - enemy.power;
+    // Player attacks enemy without taking counter-damage
     const enemyHealth = enemy.health - player.power;
 
     if (enemyHealth <= 0) {
@@ -87,12 +88,6 @@ class Roguelike extends Component<RoguelikeProps, RoguelikeState> {
       return;
     }
 
-    if (playerHealth <= 0) {
-      this.props.defeat();
-      return;
-    }
-
-    this.props.attackSprite(player.id, enemy.power);
     this.props.attackSprite(enemy.id, player.power);
   }
 
@@ -134,12 +129,16 @@ class Roguelike extends Component<RoguelikeProps, RoguelikeState> {
     const { tiles, sprites, player } = this.props;
 
     if (sprites.has(coord)) {
-      return this.handleSprites(coord);
+      this.handleSprites(coord);
+      this.props.advanceTurn();
+      return;
     }
 
     if (tiles[x][y].type !== "wall") {
       this.centerOn(x, y);
-      return this.props.moveSprite(player.id, x, y);
+      this.props.moveSprite(player.id, x, y);
+      this.props.advanceTurn();
+      return;
     }
   }
 
