@@ -1,9 +1,20 @@
-import { connect, type ConnectedProps } from "react-redux";
+import { connect } from "react-redux";
 import { RootState } from "../reducers";
 import { setBlood } from "../actions";
 import Overlay from "../presenters/Overlay";
 
-const Effects = (props: ConnectedProps<typeof connector>) => {
+interface EffectsStateProps {
+  fogOn: boolean;
+  defeat: boolean;
+  victory: boolean;
+  blood: boolean;
+}
+
+interface EffectsDispatchProps {
+  disableBlood: () => void;
+}
+
+const Effects = (props: EffectsStateProps & EffectsDispatchProps) => {
   if (props.defeat) {
     return (
       <Overlay
@@ -91,5 +102,4 @@ const mapDispatchToProps = {
   disableBlood: () => setBlood(false),
 };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-export default connector(Effects);
+export default connect(mapStateToProps, mapDispatchToProps)(Effects);

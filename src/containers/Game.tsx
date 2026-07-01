@@ -69,12 +69,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 
     spawnSprites(Const.ENEMY, Const.ENEMY_LEVELS, Const.ENEMY_COUNT, spawns);
     spawnSprites(Const.HEALTH, Const.HEALTH_LEVELS, Const.HEALTH_COUNT, spawns);
-    spawnSprites(
-      Const.WEAPON,
-      Const.WEAPON_LEVELS,
-      Const.WEAPON_COUNT,
-      spawns,
-    );
+    spawnSprites(Const.WEAPON, Const.WEAPON_LEVELS, Const.WEAPON_COUNT, spawns);
 
     dispatch(spawnSprite(Const.BOSS, Const.BOSS_LEVELS, spawns.pop()!));
     dispatch(spawnSprite(Const.PLAYER, 1, playerSpawn));

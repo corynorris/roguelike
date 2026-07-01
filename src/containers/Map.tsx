@@ -9,4 +9,6 @@ const mapStateToProps = (state: RootState) => {
   };
 };
 
-export default connect(mapStateToProps)(TileGrid as unknown as React.ComponentType<{ tiles: Tile[][] }>);
+export default connect(mapStateToProps)(
+  TileGrid as unknown as React.ComponentType<{ tiles: Tile[][] }>,
+);

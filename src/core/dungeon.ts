@@ -8,7 +8,10 @@ interface RawDungeon {
   height: number;
 }
 
-export default function generateDungeon(width: number, height: number): Dungeon {
+export default function generateDungeon(
+  width: number,
+  height: number,
+): Dungeon {
   const raw = dungeoneer.build({ width, height }) as RawDungeon;
   const dungeon = raw as unknown as Dungeon;
   dungeon.width = width;

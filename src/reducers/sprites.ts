@@ -57,7 +57,8 @@ export const sprite = (
         const exp = state.experience;
         const expGain = action.experience;
         let newExp = exp + expGain;
-        let { level, power, health, maxHealth } = state;
+        let { level, power, health } = state;
+        const { maxHealth } = state;
         let levelReq = 50 + level * 50;
         console.log("adding exp:", newExp);
         while (newExp > levelReq) {

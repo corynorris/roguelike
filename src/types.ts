@@ -20,8 +20,18 @@ export interface Dungeon {
   height: number;
   get: (x: number, y: number) => Tile | false;
   check: (x: number, y: number, type: string, outOfBounds?: boolean) => boolean;
-  get4BitMask: (x: number, y: number, type: string, outOfBounds?: boolean) => string;
-  get8BitMask: (x: number, y: number, type: string, outOfBounds?: boolean) => string;
+  get4BitMask: (
+    x: number,
+    y: number,
+    type: string,
+    outOfBounds?: boolean,
+  ) => string;
+  get8BitMask: (
+    x: number,
+    y: number,
+    type: string,
+    outOfBounds?: boolean,
+  ) => string;
 }
 
 export interface SpriteData {

@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { RootState } from "../reducers";
 import SpriteSet from "../presenters/SpriteSet";
 import Const from "../core/constants";
-import { SpriteData } from "../types";
 
 const mapStateToProps = (state: RootState) => {
   const sprites = state.sprites.filter(

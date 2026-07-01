@@ -1,12 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { effects } from "./effects";
-import {
-  setBlood,
-  attackSprite,
-  toggleFog,
-  defeat,
-  victory,
-} from "../actions";
+import { setBlood, attackSprite, toggleFog, defeat, victory } from "../actions";
 
 describe("effects reducer", () => {
   const initialState = {
@@ -29,10 +23,7 @@ describe("effects reducer", () => {
   });
 
   it("clears blood via setBlood action", () => {
-    const state = effects(
-      { ...initialState, blood: true },
-      setBlood(false),
-    );
+    const state = effects({ ...initialState, blood: true }, setBlood(false));
     expect(state.blood).toBe(false);
   });
 

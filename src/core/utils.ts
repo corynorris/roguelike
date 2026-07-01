@@ -38,7 +38,7 @@ export function weightedRange(
   weight: number,
 ): number | undefined {
   if (weight < 1) return;
-  let sum = 0;
+  let sum: number;
   do {
     sum = rollXDice(weight);
     sum -= 3.5 * weight;
