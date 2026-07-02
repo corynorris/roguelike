@@ -6,11 +6,11 @@ import sprites from "./sprites";
 import turns from "./turns";
 
 const roguelikeApp = combineReducers({
-  sprites,
-  map,
-  screen,
-  effects,
-  turns,
+	sprites,
+	map,
+	screen,
+	effects,
+	turns,
 });
 
 export type RootState = ReturnType<typeof roguelikeApp>;
