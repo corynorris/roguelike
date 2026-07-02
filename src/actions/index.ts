@@ -1,239 +1,239 @@
 import { Coord } from "../types";
 
 export interface ResetDataAction {
-  type: "RESET_DATA";
+	type: "RESET_DATA";
 }
 
 export interface SetSpritePositionAction {
-  type: "SET_SPRITE_POSITION";
-  id: string;
-  x: number;
-  y: number;
+	type: "SET_SPRITE_POSITION";
+	id: string;
+	x: number;
+	y: number;
 }
 
 export interface SpawnSpriteAction {
-  type: "SPAWN_SPRITE";
-  name: string;
-  level: number;
-  x: number;
-  y: number;
+	type: "SPAWN_SPRITE";
+	name: string;
+	level: number;
+	x: number;
+	y: number;
 }
 
 export interface SetScreenOffsetAction {
-  type: "SET_SCREEN_OFFSET";
-  top: number;
-  left: number;
+	type: "SET_SCREEN_OFFSET";
+	top: number;
+	left: number;
 }
 
 export interface DestroySpriteAction {
-  type: "DESTROY_SPRITE";
-  id: string;
+	type: "DESTROY_SPRITE";
+	id: string;
 }
 
 export interface AttackSpriteAction {
-  type: "ATTACK_SPRITE";
-  id: string;
-  damage: number;
+	type: "ATTACK_SPRITE";
+	id: string;
+	damage: number;
 }
 
 export interface SetSpriteHealthAction {
-  type: "SET_SPRITE_HEALTH";
-  id: string;
-  health: number;
+	type: "SET_SPRITE_HEALTH";
+	id: string;
+	health: number;
 }
 
 export interface SetSpritePowerAction {
-  type: "SET_SPRITE_POWER";
-  id: string;
-  power: number;
+	type: "SET_SPRITE_POWER";
+	id: string;
+	power: number;
 }
 
 export interface ToggleFogAction {
-  type: "TOGGLE_FOG";
+	type: "TOGGLE_FOG";
 }
 
 export interface SetBloodAction {
-  type: "SET_BLOOD";
-  value: boolean;
+	type: "SET_BLOOD";
+	value: boolean;
 }
 
 export interface DefeatAction {
-  type: "DEFEAT";
+	type: "DEFEAT";
 }
 
 export interface VictoryAction {
-  type: "VICTORY";
+	type: "VICTORY";
 }
 
 export interface AddExperienceAction {
-  type: "ADD_EXPERIENCE";
-  id: string;
-  experience: number;
+	type: "ADD_EXPERIENCE";
+	id: string;
+	experience: number;
 }
 
 export interface AdvanceTurnAction {
-  type: "ADVANCE_TURN";
+	type: "ADVANCE_TURN";
 }
 
 export interface SetEnemyIntentAction {
-  type: "SET_ENEMY_INTENT";
-  id: string;
-  x: number;
-  y: number;
+	type: "SET_ENEMY_INTENT";
+	id: string;
+	x: number;
+	y: number;
 }
 
 export interface ClearEnemyIntentAction {
-  type: "CLEAR_ENEMY_INTENT";
-  id: string;
+	type: "CLEAR_ENEMY_INTENT";
+	id: string;
 }
 
 export interface ExecuteEnemyMoveAction {
-  type: "EXECUTE_ENEMY_MOVE";
-  id: string;
-  x: number;
-  y: number;
+	type: "EXECUTE_ENEMY_MOVE";
+	id: string;
+	x: number;
+	y: number;
 }
 
 export type Action =
-  | ResetDataAction
-  | SetSpritePositionAction
-  | SpawnSpriteAction
-  | SetScreenOffsetAction
-  | DestroySpriteAction
-  | AttackSpriteAction
-  | SetSpriteHealthAction
-  | SetSpritePowerAction
-  | ToggleFogAction
-  | SetBloodAction
-  | DefeatAction
-  | VictoryAction
-  | AddExperienceAction
-  | AdvanceTurnAction
-  | SetEnemyIntentAction
-  | ClearEnemyIntentAction
-  | ExecuteEnemyMoveAction;
+	| ResetDataAction
+	| SetSpritePositionAction
+	| SpawnSpriteAction
+	| SetScreenOffsetAction
+	| DestroySpriteAction
+	| AttackSpriteAction
+	| SetSpriteHealthAction
+	| SetSpritePowerAction
+	| ToggleFogAction
+	| SetBloodAction
+	| DefeatAction
+	| VictoryAction
+	| AddExperienceAction
+	| AdvanceTurnAction
+	| SetEnemyIntentAction
+	| ClearEnemyIntentAction
+	| ExecuteEnemyMoveAction;
 
 export const resetData = (): ResetDataAction => ({
-  type: "RESET_DATA",
+	type: "RESET_DATA",
 });
 
 export const setSpritePosition = (
-  id: string,
-  x: number,
-  y: number,
+	id: string,
+	x: number,
+	y: number,
 ): SetSpritePositionAction => ({
-  type: "SET_SPRITE_POSITION",
-  id,
-  x,
-  y,
+	type: "SET_SPRITE_POSITION",
+	id,
+	x,
+	y,
 });
 
 export const spawnSprite = (
-  name: string,
-  level: number,
-  { x, y }: Coord,
+	name: string,
+	level: number,
+	{ x, y }: Coord,
 ): SpawnSpriteAction => ({
-  type: "SPAWN_SPRITE",
-  name,
-  level,
-  x,
-  y,
+	type: "SPAWN_SPRITE",
+	name,
+	level,
+	x,
+	y,
 });
 
 export const setScreenOffset = (
-  top: number,
-  left: number,
+	top: number,
+	left: number,
 ): SetScreenOffsetAction => ({
-  type: "SET_SCREEN_OFFSET",
-  top,
-  left,
+	type: "SET_SCREEN_OFFSET",
+	top,
+	left,
 });
 
 export const destroySprite = (id: string): DestroySpriteAction => ({
-  type: "DESTROY_SPRITE",
-  id,
+	type: "DESTROY_SPRITE",
+	id,
 });
 
 export const attackSprite = (
-  id: string,
-  damage: number,
+	id: string,
+	damage: number,
 ): AttackSpriteAction => ({
-  type: "ATTACK_SPRITE",
-  id,
-  damage,
+	type: "ATTACK_SPRITE",
+	id,
+	damage,
 });
 
 export const setSpriteHealth = (
-  id: string,
-  health: number,
+	id: string,
+	health: number,
 ): SetSpriteHealthAction => ({
-  type: "SET_SPRITE_HEALTH",
-  id,
-  health,
+	type: "SET_SPRITE_HEALTH",
+	id,
+	health,
 });
 
 export const setSpritePower = (
-  id: string,
-  power: number,
+	id: string,
+	power: number,
 ): SetSpritePowerAction => ({
-  type: "SET_SPRITE_POWER",
-  id,
-  power,
+	type: "SET_SPRITE_POWER",
+	id,
+	power,
 });
 
 export const toggleFog = (): ToggleFogAction => ({
-  type: "TOGGLE_FOG",
+	type: "TOGGLE_FOG",
 });
 
 export const setBlood = (value: boolean): SetBloodAction => ({
-  type: "SET_BLOOD",
-  value,
+	type: "SET_BLOOD",
+	value,
 });
 
 export const defeat = (): DefeatAction => ({
-  type: "DEFEAT",
+	type: "DEFEAT",
 });
 
 export const victory = (): VictoryAction => ({
-  type: "VICTORY",
+	type: "VICTORY",
 });
 
 export const addExperience = (
-  id: string,
-  experience: number,
+	id: string,
+	experience: number,
 ): AddExperienceAction => ({
-  type: "ADD_EXPERIENCE",
-  id,
-  experience,
+	type: "ADD_EXPERIENCE",
+	id,
+	experience,
 });
 
 export const advanceTurn = (): AdvanceTurnAction => ({
-  type: "ADVANCE_TURN",
+	type: "ADVANCE_TURN",
 });
 
 export const setEnemyIntent = (
-  id: string,
-  x: number,
-  y: number,
+	id: string,
+	x: number,
+	y: number,
 ): SetEnemyIntentAction => ({
-  type: "SET_ENEMY_INTENT",
-  id,
-  x,
-  y,
+	type: "SET_ENEMY_INTENT",
+	id,
+	x,
+	y,
 });
 
 export const clearEnemyIntent = (id: string): ClearEnemyIntentAction => ({
-  type: "CLEAR_ENEMY_INTENT",
-  id,
+	type: "CLEAR_ENEMY_INTENT",
+	id,
 });
 
 export const executeEnemyMove = (
-  id: string,
-  x: number,
-  y: number,
+	id: string,
+	x: number,
+	y: number,
 ): ExecuteEnemyMoveAction => ({
-  type: "EXECUTE_ENEMY_MOVE",
-  id,
-  x,
-  y,
+	type: "EXECUTE_ENEMY_MOVE",
+	id,
+	x,
+	y,
 });

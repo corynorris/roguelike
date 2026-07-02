@@ -10,13 +10,13 @@ import "./index.css";
 import roguelikeApp from "./reducers";
 
 const store = createStore(
-  roguelikeApp,
-  composeWithDevTools(applyMiddleware(thunk)),
+	roguelikeApp,
+	composeWithDevTools(applyMiddleware(thunk)),
 );
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
-  <Provider store={store}>
-    <Game />
-  </Provider>,
+	<Provider store={store}>
+		<Game />
+	</Provider>,
 );
